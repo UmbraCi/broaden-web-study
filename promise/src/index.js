@@ -10,28 +10,20 @@
 const MyPromise = require('./MyPromise')
 
 let my_promise = new MyPromise((resolve,reject)=>{
-    // resolve("success")
-    setTimeout(() => {
-        resolve("success")
-    }, 2000);
+    resolve("success")
+    // setTimeout(() => {
+    //     resolve("success")
+    // }, 2000);
     // reject("fail")
 })
 // console.log(my_promise)
 // debugger
 my_promise.then((value)=>{
     console.log("成功1" + value)
+    return "第一个完成了"
 },(reason)=>{
     console.log(`失败${reason}`)
-})
-
-my_promise.then((value)=>{
-    console.log("成功2" + value)
-},(reason)=>{
-    console.log(`失败${reason}`)
-})
-
-my_promise.then((value)=>{
-    console.log("成功3" + value)
-},(reason)=>{
-    console.log(`失败${reason}`)
+}).then((res)=>{
+    console.log(res)
+    console.log("第二个.then方法的回调")
 })
