@@ -10,7 +10,7 @@
 const MyPromise = require('./MyPromise')
 
 let my_promise = new MyPromise((resolve,reject)=>{
-    
+    // resolve("success")
     setTimeout(() => {
         resolve("success")
     }, 2000);
@@ -19,7 +19,19 @@ let my_promise = new MyPromise((resolve,reject)=>{
 // console.log(my_promise)
 // debugger
 my_promise.then((value)=>{
-    console.log("成功" + value)
+    console.log("成功1" + value)
+},(reason)=>{
+    console.log(`失败${reason}`)
+})
+
+my_promise.then((value)=>{
+    console.log("成功2" + value)
+},(reason)=>{
+    console.log(`失败${reason}`)
+})
+
+my_promise.then((value)=>{
+    console.log("成功3" + value)
 },(reason)=>{
     console.log(`失败${reason}`)
 })
