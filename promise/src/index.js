@@ -10,8 +10,11 @@
 const MyPromise = require('./MyPromise')
 
 let my_promise = new MyPromise((resolve,reject)=>{
-    resolve("success")
-    reject("fail")
+    
+    setTimeout(() => {
+        resolve("success")
+    }, 2000);
+    // reject("fail")
 })
 // console.log(my_promise)
 // debugger
