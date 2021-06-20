@@ -18,12 +18,23 @@ let my_promise = new MyPromise((resolve,reject)=>{
 })
 // console.log(my_promise)
 // debugger
+// my_promise.then((value)=>{
+//     console.log("成功1" + value)
+//     return "第一个完成了"
+// },(reason)=>{
+//     console.log(`失败${reason}`)
+// }).then((res)=>{
+//     console.log(res)
+//     console.log("第二个.then方法的回调")
+// })
 my_promise.then((value)=>{
-    console.log("成功1" + value)
-    return "第一个完成了"
+    console.log("第一个回调函数" + value)
+    return new MyPromise((resolve,reject)=>{
+        resolve("第一个回调函数里面返回的resolve状态的promise")
+    })
 },(reason)=>{
     console.log(`失败${reason}`)
 }).then((res)=>{
+    console.log("第二个回调函数")
     console.log(res)
-    console.log("第二个.then方法的回调")
 })
