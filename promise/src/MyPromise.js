@@ -36,11 +36,14 @@ class MyPromise {
         let promise2 = new MyPromise((resolve, reject) => {
             //判断状态
             if (this.status == FULFILLED) {
-                let success = successCallback(this.value)
-                //处理回调函数返回的值（链式调用）
-                //判断成功回调返回的值是否是promise对象，如果是普通值则直接调用resolve()这个普通值
-                //如果是promise对象则先判断这个promise对象的状态，根据状态来执行resolve或者reject
-                resolvePromise(success,resolve,reject)
+                //变为异步
+                setTimeout(()=>{
+                    let success = successCallback(this.value)
+                    //处理回调函数返回的值（链式调用）
+                    //判断成功回调返回的值是否是promise对象，如果是普通值则直接调用resolve()这个普通值
+                    //如果是promise对象则先判断这个promise对象的状态，根据状态来执行resolve或者reject
+                    resolvePromise(promise2,success,resolve,reject)
+                },0)
             } else if (this.status == REJECTED) {
                 let fail = failCallback(this.reason)
                 reject(fail)
@@ -56,7 +59,11 @@ class MyPromise {
 }
 
 //判断resolve返回的对象(x)是否是promise，并且做出相应处理
-function resolvePromise(x,resolve,reject){
+function resolvePromise(promise2,x,resolve,reject){
+    if(x === promise2){
+        reject(new TypeError('Chaining cycle detected for promise #<Promise>'))
+        return 
+    }
     if(x instanceof MyPromise){
         //promise对象
         //这里第一个promise成功以后，把第一个promise的回调里面返回的promise对象x的then函数调用下

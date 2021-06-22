@@ -27,14 +27,13 @@ let my_promise = new MyPromise((resolve,reject)=>{
 //     console.log(res)
 //     console.log("第二个.then方法的回调")
 // })
-my_promise.then((value)=>{
+let p1 = my_promise.then((value)=>{
     console.log("第一个回调函数" + value)
-    return new MyPromise((resolve,reject)=>{
-        resolve("第一个回调函数里面返回的resolve状态的promise")
-    })
-},(reason)=>{
-    console.log(`失败${reason}`)
-}).then((res)=>{
-    console.log("第二个回调函数")
+    return p1
+})
+
+p1.then(res=>{
     console.log(res)
+},reason=>{
+    console.log(reason.message)
 })
