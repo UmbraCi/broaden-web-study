@@ -10,12 +10,18 @@
 const MyPromise = require('./MyPromise')
 
 let my_promise = new MyPromise((resolve,reject)=>{
-    resolve("success")
+    // throw new Error("executor error")
+
+    // resolve("success")
     // setTimeout(() => {
     //     resolve("success")
     // }, 2000);
-    // reject("fail")
+    reject("fail")
 })
+// my_promise.then().then().then(res=>{
+//     console.log(res)
+// },reason=>{console.log(reason)})
+
 // console.log(my_promise)
 // debugger
 // my_promise.then((value)=>{
@@ -27,13 +33,55 @@ let my_promise = new MyPromise((resolve,reject)=>{
 //     console.log(res)
 //     console.log("第二个.then方法的回调")
 // })
-let p1 = my_promise.then((value)=>{
-    console.log("第一个回调函数" + value)
-    return p1
-})
 
-p1.then(res=>{
-    console.log(res)
-},reason=>{
-    console.log(reason.message)
-})
+
+// let p1 = my_promise.then((value)=>{
+//     console.log("第一个回调函数" + value)
+//     // return p1
+//     return 123
+// },reason=>{
+//     console.log(reason)
+//     // throw new Error('第一个then函数内抛出一个错误')
+//     return 123
+// }).then((value)=>{
+//     console.log("第2个回调函数" + value)
+// },reason=>{
+//     console.log(reason.message)
+// })
+
+// p1.then(res=>{
+//     console.log(res)
+// },reason=>{
+//     console.log(reason.message)
+// })
+
+function p1(){
+    return new MyPromise((resolve,reject)=>{
+        setTimeout(()=>{
+            console.log("p1 resolve")
+            resolve("p1")
+        },2000)
+    })
+}
+
+function p2(){
+    return new MyPromise((resolve,reject)=>{
+        // resolve("p2")
+        reject('p2 reject')
+    })
+}
+
+// MyPromise.all(['a','b',p1(),p2(),'c']).then(res=>{console.log(res)},reason=>{console.log(reason)})
+// MyPromise.resolve(100).then(res=>{console.log(res)})
+// MyPromise.resolve(p1()).then(res=>{console.log(res)})
+
+// p2().finally(()=>{
+//     console.log('finally')
+//     return p1()
+// }).then(res=>{
+//     console.log(res)
+// },reason=>{
+//     console.log(reason)
+// })
+
+p2().then(res=>{console.log(res)}).catch(err=>{console.log(err)})
