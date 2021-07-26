@@ -1,0 +1,15 @@
+{
+  "name": "my-web-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "sass scss/main.scss css/style.css --watch",
+    "serve": "browser-sync . --files \"css/*.css\"",
+    "start":"run-p build serve"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.27.4",
+    "sass": "^1.36.0"
+  }
+}
