@@ -1,6 +1,9 @@
-const {src,dest,parallel,series} = require('gulp')
+const {src,dest,parallel,series,watch} = require('gulp')
 
 const del = require('del')
+
+const browserSync = require('browser-sync')
+const bs = browserSync.create()
 
 //自动加载所有gulp前缀的插件
 const loadPlugins = require('gulp-load-plugins')
@@ -48,13 +51,15 @@ const data = {
   }
 
 const clean = ()=>{
-    return del('[dist]')
+    return del(['dist'])
 }
+
 
 const style = ()=>{
     return src('src/assets/styles/*.scss',{base:'src'})
         .pipe(plugins.sass({outputStyle:'expanded'}))                    
         .pipe(dest('dist'))
+        .pipe(bs.reload({stream:true}))
 }
 
 const script = ()=>{
@@ -62,12 +67,14 @@ const script = ()=>{
         .pipe(plugins.babel({presets:['@babel/preset-env']}))
         // .pipe(babel())
         .pipe(dest('dist'))
+        .pipe(bs.reload({stream:true}))
 }
 
 const page = ()=>{
     return src('src/*.html',{base:'src'})
         .pipe(plugins.swig({data}))
         .pipe(dest('dist'))
+        .pipe(bs.reload({stream:true}))
 }
 
 const image = ()=>{
@@ -87,17 +94,56 @@ const extra = ()=>{
         .pipe(dest('dist'))
 }
 
-const compile = parallel(style,script,page,image,font)
+const serve = ()=>{
+  watch('src/assets/styles/*.scss',style),
+  watch('src/assets/scripts/*.js',script),
+  watch('src/*.html',page),
+  // watch('src/assets/images/**',image),
+  // watch('src/assets/font/**',font),
+  // watch('public/**',extra),
 
-const build = series(clean,parallel(compile,extra))
+  watch([
+    'src/assets/images/**',
+    'src/assets/font/**',
+    'public/**'
+  ] , bs.reload)
 
+
+  bs.init({
+    notify:false,
+    // files:'dist/**',
+    server:{
+      baseDir:['dist','src','public'],
+      routes: {
+        '/node_modules': 'node_modules'
+      }
+    }
+  })
+}
+
+
+const useref = ()=>{
+  return src('dist/*.html',{base:'dist'})
+          .pipe(plugins.useref({searchPath : ['dist','.']}))
+          .pipe(dest('dist'))
+}
+
+const compile = parallel(style,script,page)
+
+const build = series(clean,parallel(compile,extra,image,font))
+
+const develop = series(compile,serve)
 
 module.exports = {
+    clean,
     style,
     script,
     page,
     image,
     font,
     compile,
-    build
+    build,
+    serve,
+    develop,
+    useref
 }
