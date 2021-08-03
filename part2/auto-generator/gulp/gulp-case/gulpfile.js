@@ -51,14 +51,14 @@ const data = {
   }
 
 const clean = ()=>{
-    return del(['dist'])
+    return del(['dist','temp'])
 }
 
 
 const style = ()=>{
     return src('src/assets/styles/*.scss',{base:'src'})
         .pipe(plugins.sass({outputStyle:'expanded'}))                    
-        .pipe(dest('dist'))
+        .pipe(dest('temp'))
         .pipe(bs.reload({stream:true}))
 }
 
@@ -66,14 +66,14 @@ const script = ()=>{
     return src('src/assets/scripts/*.js')
         .pipe(plugins.babel({presets:['@babel/preset-env']}))
         // .pipe(babel())
-        .pipe(dest('dist'))
+        .pipe(dest('temp'))
         .pipe(bs.reload({stream:true}))
 }
 
 const page = ()=>{
     return src('src/*.html',{base:'src'})
         .pipe(plugins.swig({data}))
-        .pipe(dest('dist'))
+        .pipe(dest('temp'))
         .pipe(bs.reload({stream:true}))
 }
 
@@ -113,7 +113,7 @@ const serve = ()=>{
     notify:false,
     // files:'dist/**',
     server:{
-      baseDir:['dist','src','public'],
+      baseDir:['temp','src','public'],
       routes: {
         '/node_modules': 'node_modules'
       }
@@ -123,27 +123,22 @@ const serve = ()=>{
 
 
 const useref = ()=>{
-  return src('dist/*.html',{base:'dist'})
-          .pipe(plugins.useref({searchPath : ['dist','.']}))
+  return src('temp/*.html',{base:'temp'})
+          .pipe(plugins.useref({searchPath : ['temp','.']}))
+          .pipe(plugins.if(/\.js$/,plugins.uglify()))
+          .pipe(plugins.if(/\.css$/,plugins.cleanCss()))
+          .pipe(plugins.if(/\.html$/,plugins.htmlmin({collapseWhitespace:true,minifyCSS:true,minifyJS:true})))
           .pipe(dest('dist'))
 }
 
 const compile = parallel(style,script,page)
 
-const build = series(clean,parallel(compile,extra,image,font))
+const build = series(clean,parallel(series(compile,useref),extra,image,font))
 
 const develop = series(compile,serve)
 
 module.exports = {
     clean,
-    style,
-    script,
-    page,
-    image,
-    font,
-    compile,
     build,
-    serve,
     develop,
-    useref
 }
