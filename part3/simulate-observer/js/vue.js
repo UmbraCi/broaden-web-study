@@ -3,11 +3,14 @@ class Vue{
         //1.构造器通过属性保存入参数据
         this.$options = options || {}
         this.$data = options.data || {}
-        this.$el = options.el == 'string' ? document.querySelector(options.el) : options.el
-        this._proxyDate(this.$data)
+        this.$el = typeof options.el == 'string' ? document.querySelector(options.el) : options.el
+        
         //2.把data中的成员转换成getter和setter，注入到Vue实例中
+        this._proxyDate(this.$data)
         //3.调用observer对象，监听数据变化
+        new observer(this.$data)
         //4.调用compiler对象，解析指令和插值表达式
+        new Compiler(this)
     }
     _proxyDate(data){
         //遍历data中的所有属性
@@ -21,7 +24,7 @@ class Vue{
                 get(){
                     return data[key]
                 },
-                setInterval(newValue){
+                set(newValue){
                     if(newValue == data[key])   return
                     data[key] = newValue
                 }
