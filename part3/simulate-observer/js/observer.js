@@ -13,6 +13,8 @@ class observer{
         })
     }
     defineReactive(obj,key,val){
+        //负责收集依赖
+        let dep = new Dep()
         let that = this
         //如果val是对象，把对象也变成响应式数据
         this.walk(val)
@@ -20,16 +22,19 @@ class observer{
             enumerable:true,
             configurable:true,
             get(){
+                //收集依赖
+                Dep.target && dep.addSub(Dep.target)
                 return val
             },
             set(newValue){
-                console.log(this)
+                // console.log(this)
                 if(newValue === val){
                     return
                 }
                 val = newValue
                 that.walk(newValue)
                 //发送通知
+                dep.notify()
             }
         })
     }

@@ -21,7 +21,7 @@ class Compiler{
     }
     //编译元素节点，处理指令
     compileElement(node){
-        console.log(node.attributes)
+        // console.log(node.attributes)
         //1.遍历所有的属性节点
         Array.from(node.attributes).forEach(attr=>{
             let attrName = attr.name
@@ -36,15 +36,27 @@ class Compiler{
     }
     update(node,key,attrName){
         let updateFn = this[attrName+'Updater']
-        updateFn && updateFn(node,this.vm[key])
+        updateFn && updateFn.call(this,node,this.vm[key],key)
     }
     //处理v-text指令
-    textUpdater(node,value){
+    textUpdater(node,value,key){
         node.textContent = value
+        //创建watcher对象，当数据发生改变的时候更新视图
+        new Watcher(this.vm,key,(newValue)=>{
+            node.textContent = newValue
+        })
     }
     //处理v-model
-    modelUpdater(node,value){
+    modelUpdater(node,value,key){
         node.value = value
+        //创建watcher对象，当数据发生改变的时候更新视图
+        new Watcher(this.vm,key,(newValue)=>{
+            node.value = newValue
+        })
+        //双向绑定
+        node.addEventListener('input',()=>{
+            this.vm[key] = node.value
+        })
     }
     //编译文本节点。处理差值表达式
     compileText(node){
@@ -54,6 +66,10 @@ class Compiler{
         if(reg.test(value)){
             let key = RegExp.$1.trim()
             node.textContent = value.replace(reg,this.vm[key])
+            //创建watcher对象，当数据发生改变的时候更新视图
+            new Watcher(this.vm,key,(newValue)=>{
+                node.textContent = newValue
+            })
         }
     }
     //判断元素属性是否是指令
