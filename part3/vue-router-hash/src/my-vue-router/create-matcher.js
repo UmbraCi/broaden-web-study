@@ -1,16 +1,21 @@
 import createRouteMap from './create-route-map'
+import createRoute from './util/route'
 
 
 export default function createMatcher(routes){
     //把所有的路由规则解析到一个路由表中
     //pathList ->   ['/','/music',.....]
-    //pathMao ->    {path:{component...}}
+    //pathMap ->    {path:{component...}}
     const { pathList ,pathMap } = createRouteMap(routes)
 
     console.log(pathList ,pathMap)
-
-    function match(){
-
+    //根据路由地址匹配一个路由对象
+    function match(path){
+        const record = pathMap[path]
+        if(record){
+            return createRoute(record,path)
+        }
+        return createRoute(null,path)
     }
 
     function addRoutes(routes){

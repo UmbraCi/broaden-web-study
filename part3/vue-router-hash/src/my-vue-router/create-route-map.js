@@ -13,11 +13,12 @@ export default function createRouteMap(routes,oldPathList,oldPathMap){
     }
 }
 //解析route  把解析好的规则放入 pathList,pathMap
-function addRouteRecord(route,pathList,pathMap){
-    const path = route.path
+function addRouteRecord(route,pathList,pathMap,parentRecord){
+    const path = parentRecord ? `${parentRecord.path}/${route.path}` : route.path
     const record = {
         path,
-        component:route.component
+        component:route.component,
+        parent : parentRecord
     }
     //如果已经有则跳过
     if(!pathMap[path]){
@@ -27,7 +28,7 @@ function addRouteRecord(route,pathList,pathMap){
     //如果有子路由
     if(route.children){
         route.children.forEach(childRoute=>{
-            addRouteRecord(childRoute,pathList,pathMap)
+            addRouteRecord(childRoute,pathList,pathMap,record)
         })
     }
 }
