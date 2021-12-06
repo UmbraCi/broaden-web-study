@@ -12,6 +12,7 @@ export default function install(Vue){
                 this._routerRoot = this
                 this._router = this.$options.router
                 this._router.init(this)
+                // _Vue.util.defineReactive(this,"_route",this._router.history.current)
             }else{
                 //子组件
                 this._routerRoot = (this.$parent && this.$parent._routerRoot) || this
