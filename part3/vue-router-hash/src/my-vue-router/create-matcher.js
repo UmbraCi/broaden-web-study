@@ -8,7 +8,7 @@ export default function createMatcher(routes){
     //pathMap ->    {path:{component...}}
     const { pathList ,pathMap } = createRouteMap(routes)
 
-    console.log(pathList ,pathMap)
+    // console.log(pathList ,pathMap)
     //根据路由地址匹配一个路由对象
     function match(path){
         const record = pathMap[path]
@@ -17,7 +17,7 @@ export default function createMatcher(routes){
         }
         return createRoute(null,path)
     }
-
+    //添加路由
     function addRoutes(routes){
         createRouteMap(routes,pathList,pathMap)
     }

@@ -14,7 +14,7 @@ export default class VueRouter{
             //   this.history = new HTML5History(this, options.base)
               break
             case 'hash':
-              this.history = new HashHistory(this, options.base, this.fallback)
+              this.history = new HashHistory(this)
               break
             case 'abstract':
             //   this.history = new AbstractHistory(this, options.base)

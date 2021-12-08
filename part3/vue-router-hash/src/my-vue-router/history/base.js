@@ -4,7 +4,7 @@ export default class History{
         this.router = router
         // {path:'/' , matched:[]}
         this.current = createRoute(null,'/')
-        //更改VUE实例中的_route
+        //这是个回调函数，是在hashHistory中赋值，作用是改变响应式的_route
         this.cb = null
     }
 
