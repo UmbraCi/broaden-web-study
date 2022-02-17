@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import Vue from 'vue'
 // import Component from 'vue-class-component';
 //常规方式
 // export default {
@@ -18,12 +18,12 @@ export default Vue.extend({
     data() {
         return {
             msg: 'Options APIs',
-        };
+        }
     },
     // created(){
 
     // }
-});
+})
 
 //Class APIs
 // @Component

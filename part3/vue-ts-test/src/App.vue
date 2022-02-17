@@ -4,13 +4,12 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
     </div> -->
-        <!-- <router-view /> -->
-        <foo />
+        <router-view />
     </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import Vue from 'vue'
 // import Component from 'vue-class-component'
 // import Foo from './components/Foo.vue'
 
@@ -22,7 +21,7 @@ import Vue from 'vue';
 // export default class App extends Vue {
 
 // }
-export default Vue.extend({});
+export default Vue.extend({})
 </script>
 
 <style>

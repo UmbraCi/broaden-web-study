@@ -1,8 +1,8 @@
-import Vue from 'vue';
-import VueRouter, { RouteConfig } from 'vue-router';
-import Home from '../views/Home.vue';
+import Vue from 'vue'
+import VueRouter, { RouteConfig } from 'vue-router'
+// import Home from '../views/Home.vue'
 
-Vue.use(VueRouter);
+Vue.use(VueRouter)
 
 const routes: Array<RouteConfig> = [
     // {
@@ -22,12 +22,21 @@ const routes: Array<RouteConfig> = [
     {
         path: '/',
         component: () => import('@/views/layout/index.vue'),
-        children: [],
+        children: [
+            {
+                path: '',
+                component: () => import('@/views/home/index.vue'),
+            },
+            {
+                path: 'login',
+                component: () => import('@/views/login/index.vue'),
+            },
+        ],
     },
-];
+]
 
 const router = new VueRouter({
     routes,
-});
+})
 
-export default router;
+export default router
