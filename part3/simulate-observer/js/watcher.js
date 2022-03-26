@@ -19,6 +19,7 @@ class Watcher{
             //数据没有更新则不更新视图
             return
         }
+        this.oldValue = newValue
         this.cb(newValue)
     }
 }

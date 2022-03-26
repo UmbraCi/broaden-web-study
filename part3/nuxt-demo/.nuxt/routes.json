@@ -1,0 +1,30 @@
+[
+  {
+    "name": "about",
+    "path": "/about",
+    "component": "F:\\\\web-advance\\\\broaden-web-study\\\\part3\\\\nuxt-demo\\\\pages\\\\about.vue",
+    "chunkName": "pages/about",
+    "_name": "_dd59e946"
+  },
+  {
+    "name": "user",
+    "path": "/user",
+    "component": "F:\\\\web-advance\\\\broaden-web-study\\\\part3\\\\nuxt-demo\\\\pages\\\\user\\\\index.vue",
+    "chunkName": "pages/user/index",
+    "_name": "_619b1012"
+  },
+  {
+    "name": "user-abc",
+    "path": "/user/abc",
+    "component": "F:\\\\web-advance\\\\broaden-web-study\\\\part3\\\\nuxt-demo\\\\pages\\\\user\\\\abc.vue",
+    "chunkName": "pages/user/abc",
+    "_name": "_13e87ec7"
+  },
+  {
+    "name": "index",
+    "path": "/",
+    "component": "F:\\\\web-advance\\\\broaden-web-study\\\\part3\\\\nuxt-demo\\\\pages\\\\index.vue",
+    "chunkName": "pages/index",
+    "_name": "_9dea33bc"
+  }
+]

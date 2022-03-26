@@ -25,14 +25,15 @@ class Compiler{
         //1.遍历所有的属性节点
         Array.from(node.attributes).forEach(attr=>{
             let attrName = attr.name
+            //2.判断是否是指令
             if(this.isDirective(attrName)){
+                //v-text -->  text
                 attrName = attrName.substr(2)
                 let key = attr.value
+                //3.渲染
                 this.update(node,key,attrName)
             }
         })
-        //2.判断是否是指令
-        //3.
     }
     update(node,key,attrName){
         let updateFn = this[attrName+'Updater']
