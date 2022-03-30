@@ -1,0 +1,40 @@
+{
+  "name": "umlg-element",
+  "version": "1.0.0",
+  "description": "",
+  "author": "",
+  "scripts": {
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "async-validator": "^4.0.7",
+    "element-ui": "^2.4.5",
+    "vue": "^2.6.14"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.8",
+    "@storybook/addon-actions": "^6.4.19",
+    "@storybook/addon-essentials": "^6.4.19",
+    "@storybook/addon-links": "^6.4.19",
+    "@storybook/vue": "^6.4.19",
+    "babel-loader": "^8.2.4",
+    "babel-plugin-component": "^1.1.1",
+    "vue-cli-plugin-element": "~1.0.1",
+    "vue-loader": "^15.9.8",
+    "vue-template-compiler": "^2.6.14"
+  },
+  "license": "ISC",
+  "babel": {
+    "plugins": [
+      [
+        "component",
+        {
+          "libraryName": "element-ui",
+          "styleLibraryName": "theme-chalk"
+        }
+      ]
+    ]
+  }
+}
