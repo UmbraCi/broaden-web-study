@@ -1,5 +1,9 @@
 {
   "name": "umlg-element",
+  "private":true,
+  "workspaces":[
+    "packages/*"
+  ],
   "version": "1.0.0",
   "description": "",
   "author": "",
@@ -9,7 +13,6 @@
   },
   "main": "index.js",
   "dependencies": {
-    "async-validator": "^4.0.7",
     "element-ui": "^2.4.5",
     "vue": "^2.6.14"
   },
