@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <p>
+            Ask a yes/no question:
+            <input v-model="question" />
+        </p>
+        <p>{{ answer }}</p>
+    </div>
+    <script type="module">
+        import { createApp, ref, watch } from './node_modules/vue/dist/vue.esm-browser.js';
+        createApp({
+            setup(props) {
+                //防抖函数
+                function debounce(fn, delay) {
+                    let timer = null;
+                    return function () {
+                        var args = arguments
+                        if (timer) {
+                            clearTimeout(timer)
+                        }
+                        timer = setTimeout(() => {
+                            fn.apply(this, args)
+                        }, delay)
+                    }
+                }
+                const question = ref('What is the meaning of life?')
+                const answer = ref('')
+                let debounced = debounce(async (newValue) => {
+                    const res = await fetch(`https://yesno.wtf/api?force=${newValue}`)
+                    answer.value = (await res.json()).answer
+                }, 2000)
+                watch(question, (newValue) => {
+                    try {
+                        debounced(newValue)
+                    } catch (error) {
+                        console.log(error)
+                    }
+                })
+                return {
+                    question,
+                    answer
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <button @click="push">按钮</button>
+        <div>未完成：{{activeCount}}</div>
+    </div>
+    <script type="module">
+        import { createApp,reactive,computed } from './node_modules/vue/dist/vue.esm-browser.js';
+        const data = [
+            {
+                id: 1,
+                title: '任务1',
+                completed: false
+            },
+            {
+                id: 2,
+                title: '任务2',
+                completed: false
+            },
+            {
+                id: 3,
+                title: '任务3',
+                completed: false
+            }
+        ]
+        createApp({
+            setup(props) {
+                const todos = reactive(data)
+                const  activeCount = computed(()=>{
+                    return todos.filter(item =>{
+                        return item.completed == false
+                    }).length
+                })
+                return{
+                    activeCount,
+                    push:()=>{
+                        todos.push({
+                            id: todos.length + 1,
+                            title: '新任务' + todos.length,
+                            completed: false
+                        })
+                    }
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>
+</html>
